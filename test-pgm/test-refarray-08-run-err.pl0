@@ -1,0 +1,12 @@
+// Check runtime errors for new expressions.
+type
+  V = array of int;
+var
+  len: int;
+  vec: V;
+begin
+  len := 1;
+  vec := new V[len];   // no error
+  write vec.length;
+  vec := new V[len-1]   // Runtime error: invalid array length
+end

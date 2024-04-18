@@ -1,0 +1,8 @@
+Compiling test-refarray-04-ss-err.pl0
+Parsing complete
+     5   V = array of Y;      // undefined element type
+******                ^  Error: undefined type: Y
+     6   C = array of D;      // circular
+******                ^  Error: D is circularly defined
+Static semantic analysis complete
+2 errors detected.

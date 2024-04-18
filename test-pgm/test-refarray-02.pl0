@@ -1,0 +1,28 @@
+const
+  N = 3;
+type
+  V = array of int;
+  M = array of V;
+var   
+  vec: V;
+  mat: M;
+begin
+  vec := new V[N];
+  mat := new M[N-1];
+
+  vec[0] := 100;
+  mat[0] := new V[10];
+  mat[0][9] := 200;
+  mat[1] := vec;  // array assignment (mat[1] and vec now refer to the same array)
+  mat[1][0] := 300;
+
+  vec[1] := mat[0][9]-1;
+
+  write mat.length;    // writes 2
+  write mat[0].length; // writes 10
+  write mat[1].length; // writes 3
+  write mat[0][9];     // writes 200
+  write mat[1][0];     // writes 300
+  write vec[0];        // writes 300
+  write vec[1]         // writes 199
+end

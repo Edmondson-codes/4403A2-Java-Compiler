@@ -1,0 +1,15 @@
+Compiling test-refarray-02.pl0
+Parsing complete
+Static semantic analysis complete
+Code generation complete
+Running ...
+2
+10
+3
+200
+300
+300
+199
+
+Terminated
+No errors detected.

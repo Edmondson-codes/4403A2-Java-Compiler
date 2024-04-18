@@ -1,0 +1,43 @@
+// many different types of arrays
+const
+  N = 5;
+type
+  S = [-2..2];
+  A = array of boolean;
+  B = array of A;
+  C = array of array of array of boolean;
+  D = array of S;
+  E = array of array of [-2 .. 2];
+  F = array of array of array of [-2 .. 2];
+var   
+  a: A;
+  b: B;
+  c: C;
+  d: D;
+  e: E;
+  f: F;
+begin
+  a := new A[N];
+  b := new B[N];
+  c := new C[N];
+  d := new D[N];
+  e := new E[N];
+  f := new F[N];
+
+  a[0] := true;
+  b[0] := a;
+  c[0] := b;
+  if c[0][0][0] then
+     write 1
+  else
+     write 0;
+
+  d[0] := 2;
+  e[0] := d;
+  f[0] := e;
+  if f[0][0][0] = 2 then
+     write 1
+  else
+     write 0;
+  f[0][0][0] := 3 // Runtime error: expression out of bounds
+end

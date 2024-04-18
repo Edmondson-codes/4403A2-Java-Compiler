@@ -1,0 +1,11 @@
+// Checks implementation of ArrayType.
+const
+  N = 10;
+type
+  V = array of Y;      // undefined element type
+  C = array of D;      // circular
+  D = array of E;      // circular
+  E = array of C;      // circular
+begin
+   write 99
+end

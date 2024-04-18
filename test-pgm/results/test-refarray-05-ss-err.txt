@@ -1,0 +1,26 @@
+Compiling test-refarray-05-ss-err.pl0
+Parsing complete
+    21   vec := new N[len];   // ss error: "N" is not the identifier of an array type
+******              ^  Error: undefined type: N
+    22   vec := new vec[len]; // ss error: "vec" is not the identifier of an array type
+******              ^  Error: undefined type: vec
+    23   vec := new bbb[len]; // ss error: "bbb" is not the identifier of an array type
+******              ^  Error: undefined type: bbb
+    25   vec := new V[b];     // ss error: length expression b does not have an integer type
+******                ^  Error: cannot coerce boolean to int
+    26   vec := new V[bvec];  // ss error: length expression M does not have an integer type
+******                ^  Error: cannot coerce B to int
+    27   vec := new V[new V[2]];  // ss error: length expression "new V[2]" does not have an integer type
+******                ^  Error: cannot coerce V to int
+    31   vec := new B[len];   // ss error: expression is not compatible with left value
+******          ^  Error: cannot treat B as V
+    32   vec := new M[len];   // ss error: expression is not compatible with left value
+******          ^  Error: cannot treat M as V
+    33   write new V[len];    // ss error: invalid type of expression for write
+******         ^  Error: cannot coerce V to int
+    37   vec := bvec;          // invalid array assignment
+******          ^  Error: cannot treat B as V
+    38   vec := mat            // invalid array assignment
+******          ^  Error: cannot treat M as V
+Static semantic analysis complete
+11 errors detected.

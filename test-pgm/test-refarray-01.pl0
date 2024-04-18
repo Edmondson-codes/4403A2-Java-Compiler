@@ -1,0 +1,23 @@
+const
+  N = 3;
+type
+  V = array of int;
+var   
+  vec: V;
+  i: int;
+begin
+  vec := new V[N];
+  write vec.length;
+  i := vec.length-1;
+  while 0 <= i do
+  begin
+    vec[i] := 100+i;
+    i := i - 1
+  end;
+  i := 0;
+  while i < vec.length do
+    begin
+      write vec[i];
+      i := i + 1
+    end
+end

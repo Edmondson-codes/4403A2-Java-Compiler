@@ -1,0 +1,22 @@
+Compiling test-refarray-07-ss-err.pl0
+Parsing complete
+    20   write N[0];      // ss error: "N" does not have an array type
+******         ^  Error: must be an array type
+    21   write i[0];      // ss error: "i" does not have an array type
+******         ^  Error: must be an array type
+    22   write bob[0];    // ss error: "bob" is not a constant or variable identifier
+******         ^  Error: Constant or variable identifier required
+    23   write vec[0][0]; // ss error : "vec[0]" does not have an array type
+******         ^  Error: must be an array type
+    25   write vec[i < i-1];  // ss error: invalid index type
+******               ^  Error: cannot coerce boolean to int
+    26   write vec[mat];      // ss error: invalid index type
+******             ^  Error: cannot coerce M to int
+    28   write bvec[0];      // ss error: invalid element type for write
+******         ^  Error: cannot coerce boolean to int
+    30   bvec[0] := vec[0];  // ss error: RHS of assignment not compatible with LHS
+******              ^  Error: cannot coerce int to boolean
+    32   mat[0] := bvec      // ss error: RHS of assignment not compatible with LHS
+******             ^  Error: cannot treat B as V
+Static semantic analysis complete
+9 errors detected.

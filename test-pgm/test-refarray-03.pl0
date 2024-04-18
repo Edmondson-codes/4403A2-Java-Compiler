@@ -1,0 +1,35 @@
+// Correct program with array of arrays.
+const
+  N = 3;
+type
+  V = array of int;
+  M = array of array of int;
+var   
+  vec: V;
+  mat: M;
+  i: int;
+  j: int;
+begin
+  mat := new M[N];
+  i := 0;
+  while i < mat.length do
+  begin
+      mat[i] := new V[N];
+      j := 0;
+      while j < mat[i].length do
+      begin
+          mat[i][j] := j + (i*10);
+          j := j+1
+      end;
+      i := i+1
+  end ;
+  vec := new V[N];
+  // the following should print the diagonal elements of mat: 0, 11 and 22
+  i := 0;
+  while i < mat.length do
+  begin
+      vec[i] := mat[i][i];
+      write vec[i];
+      i := i + 1
+  end
+end

@@ -1,0 +1,12 @@
+Compiling test-refarray-13.pl0
+Parsing complete
+Static semantic analysis complete
+Code generation complete
+Running ...
+1
+1
+
+Runtime error: expression out of bounds
+
+Terminated
+No errors detected.

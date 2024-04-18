@@ -1,0 +1,10 @@
+Compiling test-refarray-15-run-err.pl0
+Parsing complete
+Static semantic analysis complete
+Code generation complete
+Running ...
+
+Runtime error: memory overflow!
+
+Terminated
+No errors detected.

@@ -1,0 +1,12 @@
+const
+//  N = 10;
+  N = 2147483647; // max 32-bit int
+type
+  V = array of int;
+var   
+  vec: V;
+  i: int;
+begin
+  vec := new V[N]; // huge array causes memory overflow at run time: Runtime error: memory overflow!
+  write vec.length
+end

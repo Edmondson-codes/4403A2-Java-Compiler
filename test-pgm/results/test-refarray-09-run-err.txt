@@ -1,0 +1,10 @@
+Compiling test-refarray-09-run-err.pl0
+Parsing complete
+Static semantic analysis complete
+Code generation complete
+Running ...
+
+Runtime error: null array access
+
+Terminated
+No errors detected.

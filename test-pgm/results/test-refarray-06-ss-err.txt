@@ -1,0 +1,16 @@
+Compiling test-refarray-06-ss-err.pl0
+Parsing complete
+    15   write N.length;      // ss error: "N" does not have an array type
+******         ^  Error: the expression must have an array type
+    16   write V.length;      // ss error: "V" is not a constant or variable identifier
+******         ^  Error: Constant or variable identifier required
+    17   write b.length;      // ss error: "b" does not have an array type
+******         ^  Error: the expression must have an array type
+    18   write vec[0].length;  // ss error: "vec[0]" does not have an array type
+******         ^  Error: the expression must have an array type
+    20   write vec.something;  // ss error: "something" is not an attribute of an array
+******            ^  Error: something is not an attribute of an array
+    21   write vec.len;        // ss error: "len" is not an attribute of an array
+******            ^  Error: len is not an attribute of an array
+Static semantic analysis complete
+6 errors detected.

@@ -1,0 +1,23 @@
+// Check static semantics of array length attribute expressions.
+const
+  N = 10;
+type
+  V = array of int;
+var
+  b: boolean;
+  len: int;
+  vec : V;
+begin
+  b := false;
+  len := 2;
+  vec := new V[len];
+
+  write N.length;      // ss error: "N" does not have an array type
+  write V.length;      // ss error: "V" is not a constant or variable identifier
+  write b.length;      // ss error: "b" does not have an array type
+  write vec[0].length;  // ss error: "vec[0]" does not have an array type
+
+  write vec.something;  // ss error: "something" is not an attribute of an array
+  write vec.len;        // ss error: "len" is not an attribute of an array
+  write (vec.length*2)+1  // no error
+end

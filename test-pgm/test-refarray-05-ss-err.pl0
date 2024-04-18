@@ -1,0 +1,40 @@
+// Check static semantics of new expressions.
+const
+  N = 10;
+type
+  S = [1..N];
+  V = array of int;
+  V2 = array of int;
+  M = array of V;
+  B = array of boolean;
+var
+  b: boolean;
+  len: int;
+  len2 : S;
+  vec : V;
+  bvec : B;
+  mat : M;
+begin
+  b := true;
+  len := 2;
+
+  vec := new N[len];   // ss error: "N" is not the identifier of an array type
+  vec := new vec[len]; // ss error: "vec" is not the identifier of an array type
+  vec := new bbb[len]; // ss error: "bbb" is not the identifier of an array type
+
+  vec := new V[b];     // ss error: length expression b does not have an integer type
+  vec := new V[bvec];  // ss error: length expression M does not have an integer type
+  vec := new V[new V[2]];  // ss error: length expression "new V[2]" does not have an integer type
+  vec := new V[len2];  // no error: len2 is compatible with the integer type
+
+  vec := new V2[len];  // no error
+  vec := new B[len];   // ss error: expression is not compatible with left value
+  vec := new M[len];   // ss error: expression is not compatible with left value
+  write new V[len];    // ss error: invalid type of expression for write
+
+  bvec := new B[len*2]; // no error
+  mat := new M[len+1];  // no error
+  vec := bvec;          // invalid array assignment
+  vec := mat            // invalid array assignment
+
+end

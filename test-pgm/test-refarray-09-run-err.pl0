@@ -1,0 +1,8 @@
+// Check runtime errors for array length attribute expressions.
+type
+  V = array of int;
+var
+  vec: V;
+begin
+  write vec.length  // Runtime error: null array access
+end

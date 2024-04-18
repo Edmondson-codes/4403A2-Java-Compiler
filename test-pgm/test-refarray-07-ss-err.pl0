@@ -1,0 +1,34 @@
+// Check static semantics of references to array elements.
+const
+  N = 5;
+type
+  V = array of int;
+  M = array of V;
+  B = array of boolean;
+var
+  i : int;
+  vec : V;
+  vec2 : V;
+  mat : M;
+  bvec : B;
+begin
+  i := 99;
+  vec := new V[N];
+  bvec := new B[N];
+  mat := new M[N*2];
+
+  write N[0];      // ss error: "N" does not have an array type
+  write i[0];      // ss error: "i" does not have an array type
+  write bob[0];    // ss error: "bob" is not a constant or variable identifier
+  write vec[0][0]; // ss error : "vec[0]" does not have an array type
+
+  write vec[i < i-1];  // ss error: invalid index type
+  write vec[mat];      // ss error: invalid index type
+
+  write bvec[0];      // ss error: invalid element type for write
+  bvec[0] := true  ;  // no error
+  bvec[0] := vec[0];  // ss error: RHS of assignment not compatible with LHS
+  mat[0] := vec;      // no error
+  mat[0] := bvec      // ss error: RHS of assignment not compatible with LHS
+
+end

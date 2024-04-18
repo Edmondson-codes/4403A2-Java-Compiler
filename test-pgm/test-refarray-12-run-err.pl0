@@ -1,0 +1,9 @@
+// Check runtime errors for references to array elements.
+type
+  V = array of int;
+var
+  vec: V;
+begin
+  vec := new V[10];
+  write vec[10] // runtime error
+end
