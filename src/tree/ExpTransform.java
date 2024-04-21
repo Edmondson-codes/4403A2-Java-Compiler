@@ -16,10 +16,18 @@ public interface ExpTransform<ResultType> {
 
     ResultType visitUnaryNode(ExpNode.UnaryNode node);
 
+    ResultType visitArrayOfType(ExpNode.ArrayOfType node);
+
+    ResultType visitArrayAccess(ExpNode.ArrayAccess node);
+
+    ResultType visitArrayNode(ExpNode.ArrayNode node);
+
     ResultType visitDereferenceNode(ExpNode.DereferenceNode node);
 
     ResultType visitNarrowSubrangeNode(ExpNode.NarrowSubrangeNode node);
 
     ResultType visitWidenSubrangeNode(ExpNode.WidenSubrangeNode node);
+
+
 
 }

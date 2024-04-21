@@ -3,6 +3,7 @@ package tree;
 import java.util.*;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
+import machine.StackMachine;
 import syms.SymEntry;
 import syms.Type;
 
@@ -309,6 +310,132 @@ public abstract class ExpNode {
         }
 
     }
+
+    public static class ArrayOfType extends ExpNode{
+
+        private final Type itemType;
+
+        private ArrayOfType(Location loc, Type type, Type itemType) {
+            super(loc, type);
+            this.itemType = itemType;
+        }
+
+        public Type getItemType() {
+            return itemType;
+        }
+
+        @Override
+        public ExpNode transform(ExpTransform<ExpNode> visitor) {
+            return visitor.visitArrayOfType(this);
+        }
+
+        @Override
+        public Code genCode(ExpTransform<Code> visitor) {
+            return visitor.visitArrayOfType(this);
+        }
+    }
+
+    /*
+     * handles the production: LValue →  IDENTIFIER | LValue "[" Condition "]"
+     */
+    public static class ArrayAccess extends ExpNode {
+
+        ExpNode id; // todo: is this necessery?
+        ExpNode lvalue;
+        ExpNode cond;
+
+
+        private ArrayAccess(Location loc, Type type, ExpNode lvalue, ExpNode cond, ExpNode id) {
+            super(loc, type);
+            this.lvalue = lvalue;
+            this.cond = cond;
+            this.id = id;
+        }
+
+        public ExpNode getCond() {
+            return cond;
+        }
+
+        public ExpNode getLvalue() {
+            return lvalue;
+        }
+
+        public ExpNode getIdentifier() {
+            return id;
+        }
+
+        public void setCond(ExpNode cond) {
+            this.cond = cond;
+        }
+
+        public void setLvalue(ExpNode lvalue) {
+            this.lvalue = lvalue;
+        }
+
+        public void setIdentifier(ExpNode id) {
+            this.id = id;
+        }
+
+        @Override
+        public ExpNode transform(ExpTransform<ExpNode> visitor) {
+            return visitor.visitArrayAccess(this);
+        }
+
+        @Override
+        public Code genCode(ExpTransform<Code> visitor) {
+            return visitor.visitArrayAccess(this);
+        }
+    }
+
+    /*
+     * handles the production:
+     */
+    public static class ArrayNode extends ExpNode {
+        // vars: pointer to stack location start, length/size
+        // These vars have default values so that
+
+        private ExpNode arrayLength = null;
+
+        private int start = StackMachine.NULL_ADDR;
+
+        private ExpNode id;
+
+        public ArrayNode(Location loc, Type type, ExpNode size, int start, ExpNode id) {
+            super(loc, type);
+            this.arrayLength = size;
+            this.start = start;
+            this.id = id;
+        }
+
+        public ExpNode getLength(){
+            return arrayLength;
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public void setLength(ExpNode arrayLength) {
+            this.arrayLength = arrayLength;
+        }
+
+        public ExpNode getIdentifier() {
+            return id;
+        }
+
+        @Override
+        public ExpNode transform(ExpTransform<ExpNode> visitor) {
+            return visitor.visitArrayNode(this);
+        }
+
+        @Override
+        public Code genCode(ExpTransform<Code> visitor) {
+            return visitor.visitArrayNode(this);
+        }
+
+    }
+
+
     /**
      * Tree node for the coercion representing dereferencing of an LValue.
      * A Dereference node references an ExpNode node and represents

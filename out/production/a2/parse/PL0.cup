@@ -330,10 +330,6 @@ Type ::= TypeIdentifier:type
         {:
             RESULT = new Type.SubrangeType(subrxleft, lo, hi);
         :}
-    | KW_ARRAY KW_OF TypeIdentifier:type // ADDED
-        {:
-            RESULT = type;
-        :}
     ;
 
 TypeIdentifier ::= IDENTIFIER:id
@@ -477,22 +473,7 @@ LValue ::= IDENTIFIER:id
              */
             RESULT = new ExpNode.IdentifierNode(idxleft, id);
         :}
-    | LValue:lvalue LBRACKET Condition:cond RBRACKET // ADDED
-        {:
-            /*
-            This is for cases like the following where we're setting the value of a specific item in the array:
-            vec[0] := 100;
-            mat[0] := new V[10];
-            mat[0][9] := 200;
-            mat[1] := vec;  // array assignment (mat[1] and vec now refer to the same array)
-            mat[1][0] := 300
-            */
-            RESULT = ExpNode.ArrayAccess(lvaluexleft, ReferenceType, lvalue, cond, null);  // TODO: Figure out what to make RESULT here  (a deref & indentifier nested together?)
-//            currentScope
-        :}
-
-    |
-    error:e
+    | error:e
         {:
             RESULT = new ExpNode.ErrorNode(exleft);
         :}
@@ -605,21 +586,6 @@ Factor ::= PLUS Factor:e
     |  LValue:lval
         {:
             RESULT = lval;
-        :}
-    | KW_NEW TypeIdentifier:id LBRACKET Condition:cond RBRACKET // ADDED
-        {:
-            // this code creates a new empty arrayNode of the type and length specified. (cond here is the length)
-            RESULT = new ExpNode.ArrayNode(typexleft, ArrayType, cond, id);
-        :}
-    | LValue:lval PERIOD IDENTIFIER:id // ADDED
-        {:
-            // make sure identifier is not null
-//            if (currentScope.lookup(id) == null) {
-//                errors.error(id + " already deaclared in this scope", idxleft);
-//            }
-
-            // get a attribute of the variable scpecified
-            RESULT = new ExpNode.ArrayAccess(lvalxleft, ScalarType, lval, null, id);
         :}
     ;
 

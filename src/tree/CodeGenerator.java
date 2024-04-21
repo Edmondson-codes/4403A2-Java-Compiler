@@ -354,6 +354,42 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
         return code;
     }
 
+    // TODO
+    public Code visitArrayOfType(ExpNode.ArrayOfType node) {
+        beginGen("Array of Type");
+        endGen("Array of Type");
+        return null;
+    }
+
+    // TODO
+    public Code visitArrayAccess(ExpNode.ArrayAccess node) {
+        beginGen("Array Access");
+        endGen("Array Access");
+        return null;
+    }
+
+    // TODO
+    @Override
+    public Code visitArrayNode(ExpNode.ArrayNode node) {
+        beginGen("Array Node");
+//        // allocate space on heap for array
+//        Code code = new Code();
+//
+//        code.generateOp(Operation.READ);
+//        code.generateOp(Operation.LOAD_CON);
+//        code.generateOp(Operation.ALLOC_HEAP);
+//
+//        // check if initialized (length >= 1)
+//
+//        SymEntry.VarEntry var = node.getVariable();
+//        Code code = new Code();
+//        code.genMemRef(staticLevel - var.getLevel(), var.getOffset());
+//
+
+        endGen("Array Node");
+        return null;
+    }
+
     /**
      * Generate code to dereference an RValue.
      */

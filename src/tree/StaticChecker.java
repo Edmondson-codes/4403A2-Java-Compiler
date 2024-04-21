@@ -257,6 +257,98 @@ public class StaticChecker implements DeclVisitor, StatementVisitor,
         return node;
     }
 
+    // TODO: check
+    public ExpNode visitArrayOfType(ExpNode.ArrayOfType node) {
+        beginCheck("Array of Type");
+
+        // check type t has type T value
+        if (node.getItemType() == null) {
+            staticError("Array of [type] has no type.", node.getLocation());
+        }
+
+        // check array of t has ArrayType(T)
+        if (!(node.getType() instanceof Type.ArrayType)) {
+            staticError("array of [type] does not have an arrayType.", node.getLocation());
+        }
+
+        endCheck("Array of Type");
+        return node;
+    }
+
+    /*
+     * LValue → ... | LValue "[" Condition "]"
+     * Factor → ... | LValue "." IDENTIFIER
+     */
+    public ExpNode visitArrayAccess(ExpNode.ArrayAccess node) {
+        beginCheck("Array Access");
+
+        ExpNode cond = node.getCond().transform(this);
+        ExpNode lvalue = node.getLvalue().transform(this); // might have to dereference this
+        ExpNode id = node.getIdentifier().transform(this);
+
+        // if LValue "[" Condition "]"
+        if(id == null && cond != null){
+            // check lvalue is ArrayType
+            if (!(lvalue.getType() instanceof Type.ArrayType)) {
+                staticError("LValue is wrong type. Should be ArrayType.", node.getLocation());
+            }
+
+            // check cond is int
+            if (!(cond.getType() instanceof Type.ScalarType)) {
+                staticError("Cond is wrong type. Should be int.", node.getLocation());
+            }
+        }
+        // if LValue.length
+        else if (id != null && cond == null) {
+            // check identifer is "length"
+            if (!(id instanceof ExpNode.IdentifierNode && ((ExpNode.IdentifierNode) id).getId().equals("length"))) {
+                staticError("Expected array.length. got something else instead.", node.getLocation());
+            }
+
+            // check lvalue is array type
+            if (!(lvalue.getType() instanceof Type.ArrayType)) {
+                staticError("Lvalue is not ArrayType.", node.getLocation());
+            }
+        } else {
+            staticError("Invalid ArrayAccess. Neither of the valid options.", node.getLocation());
+        }
+
+        node.setCond(cond);
+        node.setLvalue(lvalue);
+        node.setIdentifier(id);
+
+        endCheck("Array Access");
+        return node;
+    }
+
+    // TODO: check this works
+    public ExpNode visitArrayNode(ExpNode.ArrayNode node) {
+        beginCheck("Array");
+
+        ExpNode id = node.getIdentifier().transform(this);
+
+        // check id is in the symbol table
+        if (currentScope.lookup(((ExpNode.IdentifierNode) id).getId()) == null) {
+            staticError("Array identifier not found in symbol table.", node.getLocation());
+        }
+
+        // check if id has a type of ArrayType
+        if (!(id.getType() instanceof Type.ArrayType)) {
+            staticError("Array Identifier is not of ArrayType.", node.getLocation());
+        }
+
+        // check condition has an int type
+        ExpNode cond = Type.optDereferenceExp(node.getLength()).transform(this);
+        if (!(cond.getType() instanceof Type.ScalarType)) {
+            staticError("Array condition is not int.", node.getLocation());
+        }
+        node.setLength(cond); // save result
+
+
+        endCheck("Array");
+        return node;
+    }
+
     /**
      * Handles binary operators - Operators can be overloaded
      */
