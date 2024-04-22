@@ -266,6 +266,80 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
         return code;
     }
 
+    // TODO
+    public Code visitArrayOfType(ExpNode.ArrayOfType node) {
+        beginGen("Array of Type");
+
+        // create
+
+        endGen("Array of Type");
+        return null;
+    }
+
+    // TODO
+    public Code visitArrayAccess(ExpNode.ArrayAccess node) {
+        beginGen("Array Access");
+
+        Code code = new Code();
+
+        ExpNode id = node.getIdentifier();
+        ExpNode cond = node.getCond();
+        ExpNode lvalue = node.getLvalue();
+
+        // if LValue "[" Condition "]" go to heap and access specified index
+        if(id == null && cond != null){
+            // access the item at the Condition-th index in the array
+
+        }
+        // if LValue.length get length
+        else if (id != null && cond == null) {
+            // return array length
+
+            // put address on top of stack
+            code.gen;
+
+
+
+            // get length at address
+            code.genLoad(node.getType());
+
+        } else {
+            // handled by static checker
+        }
+
+        endGen("Array Access");
+        return null;
+    }
+
+    // TODO: check
+    @Override
+    public Code visitArrayNode(ExpNode.ArrayNode node) {
+        // stores the length at the heap address pointed to by stack, then elements after that
+        beginGen("Array Node");
+
+        ExpNode length = node.getLength();
+        ExpNode id = node.getIdentifier();
+
+        Code code = new Code();
+
+        // put length of array on stack so will be stored at location with genStore
+        code.genLoadConstant(((ExpNode.ConstNode) length).getValue());
+
+        // allocate space on heap for array
+        code.genLoadConstant(((ExpNode.ConstNode) length).getValue() * ((ExpNode.ArrayOfType) id).getItemType().getSpace() );  // store list size on top of stack for ALLOC_HEAP
+        code.generateOp(Operation.ALLOC_HEAP);  // Allocate the space for list on heap
+
+        // so now the absolute address is on the top of the stack and we need to save it
+        // convert absolute address to local
+        code.generateOp(Operation.TO_LOCAL);
+
+        // store pointer to heap address in the stack frame
+        code.genStore(node.getType());
+
+        endGen("Array Node");
+        return null;
+    }
+
     /**
      * Generate operator operands in order
      */
@@ -352,42 +426,6 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
         }
         endGen("Unary");
         return code;
-    }
-
-    // TODO
-    public Code visitArrayOfType(ExpNode.ArrayOfType node) {
-        beginGen("Array of Type");
-        endGen("Array of Type");
-        return null;
-    }
-
-    // TODO
-    public Code visitArrayAccess(ExpNode.ArrayAccess node) {
-        beginGen("Array Access");
-        endGen("Array Access");
-        return null;
-    }
-
-    // TODO
-    @Override
-    public Code visitArrayNode(ExpNode.ArrayNode node) {
-        beginGen("Array Node");
-//        // allocate space on heap for array
-//        Code code = new Code();
-//
-//        code.generateOp(Operation.READ);
-//        code.generateOp(Operation.LOAD_CON);
-//        code.generateOp(Operation.ALLOC_HEAP);
-//
-//        // check if initialized (length >= 1)
-//
-//        SymEntry.VarEntry var = node.getVariable();
-//        Code code = new Code();
-//        code.genMemRef(staticLevel - var.getLevel(), var.getOffset());
-//
-
-        endGen("Array Node");
-        return null;
     }
 
     /**

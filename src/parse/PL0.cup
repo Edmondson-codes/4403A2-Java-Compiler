@@ -613,11 +613,6 @@ Factor ::= PLUS Factor:e
         :}
     | LValue:lval PERIOD IDENTIFIER:id // ADDED
         {:
-            // make sure identifier is not null
-//            if (currentScope.lookup(id) == null) {
-//                errors.error(id + " already deaclared in this scope", idxleft);
-//            }
-
             // get a attribute of the variable scpecified
             RESULT = new ExpNode.ArrayAccess(lvalxleft, ScalarType, lval, null, id);
         :}

@@ -398,13 +398,16 @@ public abstract class ExpNode {
 
         private int start = StackMachine.NULL_ADDR;
 
-        private ExpNode id;
+        private final ExpNode id;
+
+        private final int offset;
 
         public ArrayNode(Location loc, Type type, ExpNode size, int start, ExpNode id) {
             super(loc, type);
             this.arrayLength = size;
             this.start = start;
             this.id = id;
+            offset = scope.alloc;
         }
 
         public ExpNode getLength(){
